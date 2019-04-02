@@ -26,8 +26,8 @@ public class Doctor {
 
 	private String contactNum;
 
-	// fetch=FetchType.LAZY
-	@ManyToMany(cascade = { CascadeType.ALL })
+	// 
+	@ManyToMany(cascade = { CascadeType.ALL },fetch=FetchType.EAGER)
 	@JoinTable(name = "doctor_patient", joinColumns = { @JoinColumn(name = "doctor_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "patient_id") })
 	Set<Patient> patient = new HashSet();

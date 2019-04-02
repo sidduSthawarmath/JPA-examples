@@ -22,6 +22,7 @@ public class DoctorDaoImpl implements DoctorDao {
 
 	}
 
+	@Transactional
 	@Override
 	public Doctor getPatientDetailsByDoctotId(String doctorId) {
 		Query query = entityManager.createQuery("from Doctor as doc where doc.doctorId= :doctorId");
