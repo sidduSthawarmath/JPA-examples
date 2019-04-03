@@ -12,7 +12,7 @@ import com.siddu.jpaexample.domain.UserLoggedInDetails;
 import com.siddu.jpaexample.repositories.UserDao;
 
 //OneToOne mapping example
-@RestController
+//@RestController
 public class UserController implements CommandLineRunner {
 
 	@Autowired

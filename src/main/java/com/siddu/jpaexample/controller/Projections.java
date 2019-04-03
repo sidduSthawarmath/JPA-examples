@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.siddu.jpaexample.projections.EmployeeProjection;
 import com.siddu.jpaexample.repositories.EmployeeDao;
 
-@RestController
+//@RestController
 public class Projections implements CommandLineRunner {
 
 	@Autowired

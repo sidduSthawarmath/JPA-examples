@@ -15,7 +15,7 @@ import com.siddu.jpaexample.repositories.StudentDao;
 
 
 //OneToMany Unidirectional example
-@RestController
+//@RestController
 public class StudentController implements CommandLineRunner {
 
 	@Autowired

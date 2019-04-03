@@ -13,7 +13,7 @@ import com.siddu.jpaexample.domain.Patient;
 import com.siddu.jpaexample.repositories.DoctorDao;
 //Many to many mapping example
 
-@RestController
+//@RestController
 public class DoctorController implements CommandLineRunner {
 
 	@Autowired

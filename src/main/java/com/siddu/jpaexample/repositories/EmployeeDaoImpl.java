@@ -6,6 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -126,8 +129,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Override
 	public List<Tuple> getEmployeeAndSalDetailsUsingTuple() {
 		Query query = entityManager.createQuery(
-				"select emp.empId as empId,emp.empName as empName,empSal.month as month,empSal.salary as salary from Employee as emp inner join emp.empSalList as empSal",Tuple.class);
+				"select emp.empId as empId,emp.empName as empName,empSal.month as month,empSal.salary as salary from Employee as emp inner join emp.empSalList as empSal",
+				Tuple.class);
 		return query.getResultList();
 	}
 
+	// Criteria for fetch all records
+	public List<Employee> getAllEmpUsingCreteria() {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Employee> creteria = builder.createQuery(Employee.class);
+		Root<Employee> root = creteria.from(Employee.class);
+		creteria.where(builder.and(builder.equal(root.get("empName"), "siddu")));
+
+		List<Employee> employeeList = entityManager.createQuery(creteria).getResultList();
+
+		return employeeList;
+	}
 }

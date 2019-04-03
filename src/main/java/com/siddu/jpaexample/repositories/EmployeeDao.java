@@ -40,6 +40,7 @@ public interface EmployeeDao {
 
 	public List<EmployeeProjection> getEmployeeAndSalDetails();
 
-	public List<Tuple>  getEmployeeAndSalDetailsUsingTuple();
-	
+	public List<Tuple> getEmployeeAndSalDetailsUsingTuple();
+
+	public List<Employee> getAllEmpUsingCreteria();
 }

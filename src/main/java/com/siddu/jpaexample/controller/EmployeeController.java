@@ -12,7 +12,7 @@ import com.siddu.jpaexample.domain.Employee;
 import com.siddu.jpaexample.repositories.EmployeeDao;
 
 //OneToMany Bidirectional example
-@RestController
+//@RestController
 public class EmployeeController implements CommandLineRunner {
 
 	@Autowired
@@ -44,13 +44,13 @@ public class EmployeeController implements CommandLineRunner {
 
 	}
 
-	private void getDuplicateMonthSal() {
+	public void getDuplicateMonthSal() {
 		List<String> dupSalMonth = employeeDao.getDuplicateMonthSal();
 		System.out.println(dupSalMonth);
 		
 	}
 
-	private void whereClauseComposite() {
+	public void whereClauseComposite() {
 		
 		List<Employee> empSalList = employeeDao.nameStartCharAndSalaryLessThan5k();
 		displayData(empSalList);
@@ -70,24 +70,24 @@ public class EmployeeController implements CommandLineRunner {
 		
 	}
 
-	private void getEmpDetLikeOperartor() {
+	public void getEmpDetLikeOperartor() {
 		List<Employee> empSalList = employeeDao.getEmpDetLikeOperartor("dd");
 		displayData(empSalList);
 	}
 
-	private void displayData(List<Employee> empSalList) {
+	public void displayData(List<Employee> empSalList) {
 		for (Employee emp : empSalList) {
 			System.out.println(emp.getEmpName());
 		}
 	}
 
-	private void empNameorderByAsc() {
+	public void empNameorderByAsc() {
 		List<Employee> empSalList = employeeDao.empNameorderByAsc();
 		displayData(empSalList);
 
 	}
 
-	private void aggregateFunExample() {
+	public void aggregateFunExample() {
 
 		Long count = employeeDao.findEmpCount();
 
@@ -101,7 +101,7 @@ public class EmployeeController implements CommandLineRunner {
 
 	}
 
-	private void findEmpBasedOnSal() {
+	public void findEmpBasedOnSal() {
 		// find employee Whose sal is greater than 9k
 		List<EmpSalary> empSalList = employeeDao.findEmpBasedOnSal(9500);
 
@@ -110,7 +110,7 @@ public class EmployeeController implements CommandLineRunner {
 		}
 	}
 
-	private void saveEmpDetails() {
+	public void saveEmpDetails() {
 
 		Employee emp = new Employee();
 		emp.setEmpId("123");
