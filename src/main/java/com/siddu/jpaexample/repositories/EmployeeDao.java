@@ -2,8 +2,11 @@ package com.siddu.jpaexample.repositories;
 
 import java.util.List;
 
+import javax.persistence.Tuple;
+
 import com.siddu.jpaexample.domain.EmpSalary;
 import com.siddu.jpaexample.domain.Employee;
+import com.siddu.jpaexample.projections.EmployeeProjection;
 
 public interface EmployeeDao {
 
@@ -34,5 +37,9 @@ public interface EmployeeDao {
 	public List<Employee> getEmployeeNameNotIn();
 
 	public List<String> getDuplicateMonthSal();
+
+	public List<EmployeeProjection> getEmployeeAndSalDetails();
+
+	public List<Tuple>  getEmployeeAndSalDetailsUsingTuple();
 	
 }

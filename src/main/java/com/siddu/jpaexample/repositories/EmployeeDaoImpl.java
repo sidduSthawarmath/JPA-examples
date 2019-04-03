@@ -5,12 +5,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import com.siddu.jpaexample.domain.EmpSalary;
 import com.siddu.jpaexample.domain.Employee;
+import com.siddu.jpaexample.projections.EmployeeProjection;
 
 @Transactional
 @Repository
@@ -111,6 +113,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public List<String> getDuplicateMonthSal() {
 		Query query = entityManager.createQuery(
 				"select empSal.month from Employee as emp inner join emp.empSalList as empSal  group by empSal.month having count(empSal.month)>1");
+		return query.getResultList();
+	}
+
+	@Override
+	public List<EmployeeProjection> getEmployeeAndSalDetails() {
+		Query query = entityManager.createQuery(
+				"select new com.siddu.jpaexample.projections.EmployeeProjection(emp.empId,emp.empName,empSal.month,empSal.salary) from Employee as emp inner join emp.empSalList as empSal");
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Tuple> getEmployeeAndSalDetailsUsingTuple() {
+		Query query = entityManager.createQuery(
+				"select emp.empId as empId,emp.empName as empName,empSal.month as month,empSal.salary as salary from Employee as emp inner join emp.empSalList as empSal",Tuple.class);
 		return query.getResultList();
 	}
 

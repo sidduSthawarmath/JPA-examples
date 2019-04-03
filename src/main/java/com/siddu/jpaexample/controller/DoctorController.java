@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.siddu.jpaexample.domain.Doctor;
 import com.siddu.jpaexample.domain.Patient;
 import com.siddu.jpaexample.repositories.DoctorDao;
+//Many to many mapping example
 
 @RestController
 public class DoctorController implements CommandLineRunner {
