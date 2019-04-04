@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -171,28 +172,47 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		criteria.add(Restrictions.and(Restrictions.eq("month", "march"), Restrictions.eq("salary", 5000L)));
 		System.out.println(criteria.list());
 
-		
-		
-	
 		// based on month 'march' and sal equal to 5k or salary equal to 90k
 		criteria = getCriteria(session);
-		criteria.add(Restrictions.or(Restrictions.and(Restrictions.eq("month", "march"), Restrictions.eq("salary", 5000L)),Restrictions.eq("salary", 90000L)));
+		criteria.add(
+				Restrictions.or(Restrictions.and(Restrictions.eq("month", "march"), Restrictions.eq("salary", 5000L)),
+						Restrictions.eq("salary", 90000L)));
 		System.out.println(criteria.list());
-		
-		
-		//Inner join
-		Criteria criteria4 = session.createCriteria(EmpSalary.class,"empSal");
-		criteria4.createAlias("empSal.employee", "emp", CriteriaSpecification.INNER_JOIN);
-		criteria4.add(Restrictions.eqProperty("empSal.employee", "emp.empSalList")).add(Restrictions.eq("emp.empName","siddu"));
-		criteria4.setResultTransformer( Criteria.DISTINCT_ROOT_ENTITY );
-		System.out.println(criteria4.list());
-		
-		
-		
+
+		// Inner join
+		criteria = getCriteria(session);
+		criteria.createAlias("empSal.employee", "emp", CriteriaSpecification.INNER_JOIN);
+		criteria.add(Restrictions.eqProperty("empSal.employee", "emp.empSalList"))
+				.add(Restrictions.eq("emp.empName", "siddu"));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		System.out.println(criteria.list());
+
+		// Aggregate function
+
+		// max
+		criteria = getCriteria(session);
+		criteria.setProjection(Projections.projectionList().add(Projections.max("salary")));
+		criteria.list();
+
+		// min
+		criteria = getCriteria(session);
+		criteria.setProjection(Projections.projectionList().add(Projections.min("salary")));
+		criteria.list();
+
+		// average
+		criteria = getCriteria(session);
+		criteria.setProjection(Projections.projectionList().add(Projections.avg("salary")));
+		criteria.list();
+
+		// sum
+		criteria = getCriteria(session);
+		criteria.setProjection(Projections.projectionList().add(Projections.sum("salary")));
+		criteria.list();
+
 		return null;
 	}
 
 	private Criteria getCriteria(Session session) {
-		return session.createCriteria(EmpSalary.class,"empSal");
+		return session.createCriteria(EmpSalary.class, "empSal");
 	}
 }
