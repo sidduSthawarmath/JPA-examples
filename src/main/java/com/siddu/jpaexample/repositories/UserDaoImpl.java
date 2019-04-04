@@ -28,19 +28,9 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> findTodayLoggedInUser() {
-
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String today = simpleDateFormat.format(new Date());
-		// dateTime
-
 		Query query = entityManager.createQuery(
 				"select distinct  user from User as user inner join user.userLoggedInDetails as userLoggedInDet "
 						+ "where userLoggedInDet.loginDateTime between '2019-4-2' and '2019-4-2'");
-
-	//	query.setParameter("todayDate", new Date(),TemporalType.TIMESTAMP);
-		
 		return query.getResultList();
-
 	}
-
 }

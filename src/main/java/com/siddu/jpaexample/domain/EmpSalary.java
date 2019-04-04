@@ -54,4 +54,9 @@ public class EmpSalary {
 		this.employee = employee;
 	}
 
+	@Override
+	public String toString() {
+		return "EmpSalary [pkId=" + pkId + ", month=" + month + ", salary=" + salary + "]";
+	}
+
 }

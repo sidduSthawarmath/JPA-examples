@@ -12,7 +12,7 @@ import com.siddu.jpaexample.domain.Employee;
 import com.siddu.jpaexample.repositories.EmployeeDao;
 
 @RestController
-public class Creteria implements CommandLineRunner{
+public class Criteria implements CommandLineRunner{
 
 
 	
@@ -55,7 +55,7 @@ public class Creteria implements CommandLineRunner{
 	
 	
 	public void getAllEmpUsingCreteria() {
-	List<Employee> empLis=	employeeDao.getAllEmpUsingCreteria();
+	List<Employee> empList=	employeeDao.getAllEmpUsingCreteria();
 		
 	}
 

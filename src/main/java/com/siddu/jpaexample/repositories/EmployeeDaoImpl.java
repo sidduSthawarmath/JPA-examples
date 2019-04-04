@@ -6,11 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.siddu.jpaexample.domain.EmpSalary;
@@ -136,13 +137,62 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	// Criteria for fetch all records
 	public List<Employee> getAllEmpUsingCreteria() {
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Employee> creteria = builder.createQuery(Employee.class);
-		Root<Employee> root = creteria.from(Employee.class);
-		creteria.where(builder.and(builder.equal(root.get("empName"), "siddu")));
 
-		List<Employee> employeeList = entityManager.createQuery(creteria).getResultList();
+		Session session = entityManager.unwrap(Session.class);
+		Criteria criteria1 = session.createCriteria(Employee.class).add(Restrictions.eq("empName", "Ramesh"))
+				.createCriteria("empSalList").add(Restrictions.gt("salary", 9000L));
+		criteria1.list();
 
-		return employeeList;
+		Criteria criteria = null;
+
+		criteria = getCriteria(session);
+
+		// Fetch all elements
+		System.out.println(criteria.list());
+
+		// based on Month sal
+		criteria = getCriteria(session);
+		criteria.add(Restrictions.eq("month", "jan"));
+		System.out.println(criteria.list());
+
+		// based on Month sal and salary eq 5k
+		criteria = getCriteria(session);
+		criteria.add(Restrictions.eq("month", "jan")).add(Restrictions.eq("salary", 5000L));
+		System.out.println(criteria.list());
+
+		// based on Month 'march' or salary equal to 90k or 10K
+		criteria = getCriteria(session);
+		criteria.add(Restrictions.or(Restrictions.eq("month", "march"), Restrictions.eq("salary", 90000L),
+				Restrictions.eq("salary", 10000L)));
+		System.out.println(criteria.list());
+
+		// based on month 'march' and sal equal to 5k
+		criteria = getCriteria(session);
+		criteria.add(Restrictions.and(Restrictions.eq("month", "march"), Restrictions.eq("salary", 5000L)));
+		System.out.println(criteria.list());
+
+		
+		
+	
+		// based on month 'march' and sal equal to 5k or salary equal to 90k
+		criteria = getCriteria(session);
+		criteria.add(Restrictions.or(Restrictions.and(Restrictions.eq("month", "march"), Restrictions.eq("salary", 5000L)),Restrictions.eq("salary", 90000L)));
+		System.out.println(criteria.list());
+		
+		
+		//Inner join
+		Criteria criteria4 = session.createCriteria(EmpSalary.class,"empSal");
+		criteria4.createAlias("empSal.employee", "emp", CriteriaSpecification.INNER_JOIN);
+		criteria4.add(Restrictions.eqProperty("empSal.employee", "emp.empSalList")).add(Restrictions.eq("emp.empName","siddu"));
+		criteria4.setResultTransformer( Criteria.DISTINCT_ROOT_ENTITY );
+		System.out.println(criteria4.list());
+		
+		
+		
+		return null;
+	}
+
+	private Criteria getCriteria(Session session) {
+		return session.createCriteria(EmpSalary.class,"empSal");
 	}
 }
