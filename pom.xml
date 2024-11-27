@@ -40,8 +40,7 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 	</dependencies>
-	---Test
-
+	
 	<build>
 		<plugins>
 			<plugin>
